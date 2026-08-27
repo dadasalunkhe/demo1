@@ -1,0 +1,5625 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Nutrien | Network Operations Center</title>
+
+<style>
+
+/* =========================================================
+   GLOBAL
+   ========================================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#070c16;
+    color:#e8edf7;
+}
+
+button{
+    font-family:inherit;
+}
+
+.app{
+    display:flex;
+    min-height:100vh;
+}
+
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+.sidebar{
+    width:245px;
+    position:fixed;
+    top:0;
+    bottom:0;
+    left:0;
+
+    background:#0b111d;
+    border-right:1px solid #1d293b;
+
+    display:flex;
+    flex-direction:column;
+}
+
+.logo{
+    padding:23px 20px;
+    border-bottom:1px solid #1c2739;
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo-icon{
+    width:42px;
+    height:42px;
+    border-radius:11px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-weight:800;
+    font-size:10px;
+
+    background:linear-gradient(
+        135deg,
+        #2677ff,
+        #734bff
+    );
+
+    box-shadow:0 0 25px #397cff33;
+}
+
+.logo h2{
+    font-size:18px;
+}
+
+.logo span{
+    font-size:9px;
+    color:#6e7b91;
+}
+
+nav{
+    padding:22px 13px;
+}
+
+nav a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    padding:12px 13px;
+    margin-bottom:5px;
+
+    border-radius:8px;
+
+    color:#8994a9;
+
+    font-size:12px;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+nav a:hover,
+nav a.active{
+    background:#151f32;
+    color:#fff;
+}
+
+nav a.active{
+    box-shadow:inset 3px 0 #397cff;
+}
+
+.nav-icon{
+    width:20px;
+    text-align:center;
+}
+
+.badge{
+    margin-left:auto;
+
+    background:#3b1720;
+    color:#ff6875;
+
+    padding:3px 7px;
+
+    border-radius:20px;
+
+    font-size:9px;
+}
+
+.system{
+    margin:auto 13px 18px;
+
+    padding:13px;
+
+    background:#101827;
+    border:1px solid #1c293d;
+
+    border-radius:9px;
+
+    display:flex;
+    gap:9px;
+    align-items:center;
+}
+
+.system-dot{
+    width:9px;
+    height:9px;
+
+    border-radius:50%;
+
+    background:#22c55e;
+
+    box-shadow:0 0 10px #22c55e;
+
+    animation:systemPulse 2s infinite;
+}
+
+.system strong{
+    display:block;
+    font-size:10px;
+}
+
+.system small{
+    color:#69768b;
+    font-size:8px;
+}
+
+@keyframes systemPulse{
+
+    0%,100%{
+        opacity:1;
+    }
+
+    50%{
+        opacity:.35;
+    }
+
+}
+
+
+/* =========================================================
+   MAIN
+   ========================================================= */
+
+.main{
+    margin-left:245px;
+    width:calc(100% - 245px);
+
+    padding:28px 32px;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:25px;
+}
+
+.topbar h1{
+    font-size:24px;
+}
+
+.topbar p{
+    color:#6c7890;
+    font-size:11px;
+    margin-top:6px;
+}
+
+.top-actions{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.live{
+    color:#39d98a;
+
+    background:#0b2118;
+    border:1px solid #174b31;
+
+    padding:8px 12px;
+
+    border-radius:20px;
+
+    font-size:9px;
+}
+
+.live-dot{
+    display:inline-block;
+
+    width:6px;
+    height:6px;
+
+    background:#39d98a;
+
+    border-radius:50%;
+
+    margin-right:5px;
+
+    animation:livePulse 1.2s infinite;
+}
+
+@keyframes livePulse{
+
+    0%,100%{
+        opacity:1;
+    }
+
+    50%{
+        opacity:.25;
+    }
+
+}
+
+.notification{
+    width:35px;
+    height:35px;
+
+    border:1px solid #253149;
+    background:#101725;
+
+    color:white;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.notification:hover{
+    border-color:#397cff;
+    transform:translateY(-2px);
+}
+
+.user{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.avatar{
+    width:34px;
+    height:34px;
+
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:#26385d;
+
+    font-size:12px;
+    font-weight:700;
+}
+
+.user strong{
+    font-size:10px;
+}
+
+.user small{
+    display:block;
+    color:#66738a;
+    font-size:8px;
+}
+
+
+/* =========================================================
+   KPI
+   ========================================================= */
+
+.kpi-grid{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:12px;
+
+    margin-bottom:25px;
+}
+
+.kpi{
+    background:#0d1523;
+
+    border:1px solid #1c293d;
+
+    border-radius:11px;
+
+    padding:17px;
+
+    transition:.2s;
+}
+
+.kpi:hover{
+    transform:translateY(-2px);
+    border-color:#334866;
+}
+
+.kpi-title{
+    color:#78849a;
+    font-size:9px;
+}
+
+.kpi-value{
+    font-size:25px;
+    font-weight:700;
+
+    margin:9px 0;
+}
+
+.kpi-footer{
+    display:flex;
+    justify-content:space-between;
+
+    color:#647087;
+    font-size:8px;
+}
+
+.green{
+    color:#35d58a;
+}
+
+.red{
+    color:#ef4444;
+}
+
+.orange{
+    color:#f59e0b;
+}
+
+.blue{
+    color:#5493ff;
+}
+
+.purple{
+    color:#9b83ff;
+}
+
+.kpi.kpi-alert{
+
+    border-color:#ef4444;
+
+    animation:
+        criticalPulse 1.5s infinite;
+
+}
+
+
+/* =========================================================
+   SECTION
+   ========================================================= */
+
+.section{
+    margin-bottom:23px;
+}
+
+.section-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:13px;
+}
+
+.section-header h2{
+    font-size:14px;
+}
+
+.section-header p{
+    color:#657188;
+    font-size:9px;
+    margin-top:4px;
+}
+
+.demo-button{
+    background:#101827;
+    color:#8d9ab0;
+
+    border:1px solid #27354b;
+
+    padding:8px 11px;
+
+    border-radius:6px;
+
+    font-size:9px;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.demo-button:hover{
+    color:#fff;
+    border-color:#397cff;
+    transform:translateY(-1px);
+}
+
+
+/* =========================================================
+   DEVICE TYPE BLOCKS
+   ========================================================= */
+
+.device-types{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:13px;
+}
+
+.type-card{
+    background:#0d1523;
+
+    border:1px solid #1c293d;
+
+    border-radius:11px;
+
+    padding:16px;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.type-card:hover{
+    transform:translateY(-3px);
+    border-color:#385277;
+}
+
+.type-card.type-alert{
+
+    border-color:#ef4444;
+
+    animation:
+        criticalPulse 1.5s infinite;
+
+}
+
+.type-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.type-icon{
+    width:34px;
+    height:34px;
+
+    border-radius:8px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:10px;
+    font-weight:700;
+}
+
+.router-icon{
+    background:#182d50;
+    color:#5794ff;
+}
+
+.switch-icon{
+    background:#252044;
+    color:#9a82ff;
+}
+
+.ap-icon{
+    background:#173b38;
+    color:#36d6c2;
+}
+
+.link-icon{
+    background:#3a2117;
+    color:#ff9f43;
+}
+
+.type-name{
+    margin-top:12px;
+    font-size:11px;
+    font-weight:600;
+}
+
+.type-count{
+    font-size:24px;
+    font-weight:700;
+    margin-top:6px;
+}
+
+.type-status{
+    margin-top:6px;
+    font-size:8px;
+    color:#6d7a90;
+}
+
+.type-danger{
+    color:#ef4444;
+}
+
+
+/* =========================================================
+   DOWN DEVICES
+   ========================================================= */
+
+.down-section{
+    background:#0c131f;
+
+    border:1px solid #3b2229;
+
+    border-radius:12px;
+
+    padding:18px;
+
+    margin-bottom:20px;
+}
+
+.down-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:15px;
+}
+
+.down-title h2{
+    font-size:14px;
+}
+
+.down-title p{
+    color:#66738a;
+    font-size:9px;
+    margin-top:4px;
+}
+
+.down-count{
+    background:#3a171d;
+    color:#ff6870;
+
+    padding:6px 10px;
+
+    border-radius:20px;
+
+    font-size:9px;
+}
+
+.down-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+}
+
+.down-device{
+    position:relative;
+
+    background:#0a101b;
+
+    border:1px solid #293448;
+
+    border-left:3px solid #ef4444;
+
+    border-radius:8px;
+
+    padding:13px;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.down-device:hover{
+    background:#101927;
+    border-color:#ef4444;
+}
+
+.down-device.device-alert{
+
+    animation:
+        criticalPulse 1.5s infinite,
+        alertFlash .6s ease;
+
+    border-color:#ef4444;
+}
+
+.down-device.device-alert::before{
+
+    content:"CRITICAL";
+
+    position:absolute;
+
+    top:7px;
+    right:7px;
+
+    background:#ef4444;
+
+    color:white;
+
+    padding:3px 6px;
+
+    border-radius:4px;
+
+    font-size:6px;
+
+    font-weight:800;
+
+    animation:redBlink 1s infinite;
+}
+
+.down-device-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.device-name{
+    font-size:10px;
+    font-weight:700;
+}
+
+.device-status{
+    color:#ef4444;
+    font-size:7px;
+    font-weight:700;
+}
+
+.device-meta{
+    color:#69768c;
+    font-size:8px;
+    margin-top:6px;
+}
+
+.device-meta span{
+    margin-right:8px;
+}
+
+.device-actions{
+    display:flex;
+    gap:7px;
+    margin-top:11px;
+}
+
+.precheck-btn{
+    flex:1;
+
+    background:linear-gradient(
+        90deg,
+        #286cf6,
+        #6646e8
+    );
+
+    color:white;
+
+    border:none;
+
+    padding:8px;
+
+    border-radius:6px;
+
+    font-size:8px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.precheck-btn:hover{
+    opacity:.9;
+    transform:translateY(-1px);
+}
+
+.details-btn{
+    background:#111a29;
+
+    border:1px solid #29364c;
+
+    color:#8794aa;
+
+    padding:8px 10px;
+
+    border-radius:6px;
+
+    font-size:8px;
+
+    cursor:pointer;
+}
+
+
+/* =========================================================
+   MAIN CONTENT GRID
+   ========================================================= */
+
+.content-grid{
+    display:grid;
+
+    grid-template-columns:1.35fr 1fr;
+
+    gap:15px;
+}
+
+
+/* =========================================================
+   PANEL
+   ========================================================= */
+
+.panel{
+    background:#0d1523;
+
+    border:1px solid #1c293d;
+
+    border-radius:12px;
+
+    padding:18px;
+}
+
+.panel-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:15px;
+}
+
+.panel-header h2{
+    font-size:13px;
+}
+
+.panel-header p{
+    color:#657188;
+    font-size:9px;
+    margin-top:4px;
+}
+
+
+/* =========================================================
+   INVENTORY
+   ========================================================= */
+
+.inventory{
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+}
+
+.inventory-row{
+    display:grid;
+
+    grid-template-columns:
+        1.4fr
+        .8fr
+        .8fr
+        .8fr
+        .7fr;
+
+    align-items:center;
+
+    padding:10px;
+
+    background:#0a111d;
+
+    border:1px solid #192538;
+
+    border-radius:7px;
+
+    font-size:8px;
+}
+
+.inventory-row:hover{
+    border-color:#304463;
+}
+
+.inventory-head{
+    color:#5e6b81;
+    background:transparent;
+    border:none;
+}
+
+.site{
+    font-weight:600;
+}
+
+.online{
+    color:#35d58a;
+}
+
+.down{
+    color:#ef4444;
+}
+
+.warning{
+    color:#f59e0b;
+}
+
+
+/* =========================================================
+   THRESHOLD PANEL
+   ========================================================= */
+
+.threshold-row{
+    padding:11px 0;
+
+    border-bottom:1px solid #1a2638;
+
+    transition:.3s;
+}
+
+.threshold-row:last-child{
+    border-bottom:none;
+}
+
+.threshold-row.threshold-breach{
+
+    border-radius:7px;
+
+    padding-left:10px;
+    padding-right:10px;
+
+    background:#1b1510;
+
+    animation:
+        warningPulse 1.6s infinite;
+}
+
+.threshold-row.threshold-critical{
+
+    background:#1b0d11;
+
+    border-radius:7px;
+
+    padding-left:10px;
+    padding-right:10px;
+
+    animation:
+        criticalPulse 1.4s infinite;
+}
+
+.threshold-top{
+    display:flex;
+    justify-content:space-between;
+
+    font-size:9px;
+}
+
+.threshold-bar{
+    height:5px;
+
+    background:#1b2638;
+
+    border-radius:10px;
+
+    margin-top:7px;
+
+    overflow:hidden;
+}
+
+.threshold-fill{
+    height:100%;
+    border-radius:10%;
+
+    transition:width .5s;
+}
+
+.fill-green{
+    background:#27c47d;
+}
+
+.fill-orange{
+    background:#f59e0b;
+}
+
+.fill-red{
+    background:#ef4444;
+}
+
+.breach-label{
+
+    margin-left:8px;
+
+    padding:3px 6px;
+
+    border-radius:4px;
+
+    font-size:6px;
+
+    font-weight:800;
+
+    background:#4a2810;
+
+    color:#ffb454;
+}
+
+.critical-label{
+
+    background:#48171d;
+
+    color:#ff6875;
+}
+
+
+/* =========================================================
+   EVENTS
+   ========================================================= */
+
+.events{
+    margin-top:15px;
+}
+
+.event{
+    display:flex;
+    align-items:center;
+
+    gap:10px;
+
+    padding:9px 0;
+
+    border-bottom:1px solid #182335;
+
+    font-size:8px;
+
+    transition:.2s;
+}
+
+.event-time{
+    color:#526077;
+    font-family:monospace;
+}
+
+.event-type{
+    width:60px;
+    font-weight:700;
+}
+
+.event-text{
+    color:#929eb1;
+}
+
+.event.new-event{
+
+    animation:
+        slideAlert .4s ease;
+
+    background:#101a29;
+
+    border-left:3px solid #397cff;
+
+    padding-left:8px;
+}
+
+.event.new-critical{
+
+    border-left-color:#ef4444;
+
+    background:#1b0e13;
+}
+
+.event.new-warning{
+
+    border-left-color:#f59e0b;
+
+    background:#1c160d;
+}
+
+
+/* =========================================================
+   NOTIFICATION
+   ========================================================= */
+
+.noc-notification{
+
+    position:fixed;
+
+    top:20px;
+    right:25px;
+
+    width:350px;
+
+    background:#0c1421;
+
+    border:1px solid #293950;
+
+    border-radius:10px;
+
+    padding:14px;
+
+    z-index:5000;
+
+    box-shadow:
+        0 15px 50px #00000088;
+
+    animation:
+        slideAlert .35s ease;
+
+    cursor:pointer;
+}
+
+.noc-notification.critical{
+
+    border-left:4px solid #ef4444;
+}
+
+.noc-notification.warning{
+
+    border-left:4px solid #f59e0b;
+}
+
+.notification-title{
+
+    font-size:10px;
+
+    font-weight:700;
+
+    margin-bottom:5px;
+}
+
+.notification-message{
+
+    color:#8794aa;
+
+    font-size:9px;
+
+    line-height:1.5;
+}
+
+.notification-time{
+
+    color:#4f5c72;
+
+    font-size:7px;
+
+    margin-top:7px;
+}
+
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+
+.modal{
+
+    position:fixed;
+
+    inset:0;
+
+    background:#000000aa;
+
+    display:none;
+
+    align-items:center;
+    justify-content:center;
+
+    z-index:1000;
+
+    backdrop-filter:blur(5px);
+}
+
+.modal.show{
+    display:flex;
+}
+
+.precheck-window{
+
+    width:min(1050px,92vw);
+
+    max-height:90vh;
+
+    background:#0a111d;
+
+    border:1px solid #293952;
+
+    border-radius:14px;
+
+    box-shadow:
+        0 20px 80px #000000aa;
+
+    overflow:hidden;
+}
+
+.modal-header{
+
+    padding:17px 20px;
+
+    border-bottom:1px solid #1e2a3e;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+}
+
+.modal-title{
+
+    display:flex;
+
+    gap:10px;
+
+    align-items:center;
+}
+
+.robot{
+
+    width:34px;
+    height:34px;
+
+    border-radius:8px;
+
+    background:#182b4b;
+
+    color:#5794ff;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+}
+
+.modal-title strong{
+    font-size:12px;
+}
+
+.modal-title small{
+
+    display:block;
+
+    color:#68758a;
+
+    font-size:8px;
+
+    margin-top:3px;
+}
+
+.modal-state{
+
+    color:#35d58a;
+
+    font-size:10px;
+
+    font-weight:600;
+
+    margin-right:10px;
+}
+
+.close{
+
+    background:transparent;
+
+    border:none;
+
+    color:#8290a7;
+
+    font-size:20px;
+
+    cursor:pointer;
+}
+
+
+/* =========================================================
+   PRECHECK BODY
+   ========================================================= */
+
+.precheck-body{
+
+    display:grid;
+
+    grid-template-columns:320px 1fr;
+
+    min-height:520px;
+}
+
+.device-info-panel{
+
+    padding:18px;
+
+    border-right:1px solid #1d293c;
+}
+
+.info-title{
+
+    font-size:10px;
+
+    color:#718097;
+
+    margin-bottom:12px;
+}
+
+.info-card{
+
+    background:#0e1725;
+
+    border:1px solid #202d43;
+
+    border-radius:8px;
+
+    padding:13px;
+
+    margin-bottom:15px;
+}
+
+.info-row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    padding:7px 0;
+
+    border-bottom:1px solid #182436;
+
+    font-size:8px;
+}
+
+.info-row:last-child{
+    border-bottom:none;
+}
+
+.info-row span:first-child{
+    color:#66738a;
+}
+
+.info-row span:last-child{
+    color:#dce3ef;
+}
+
+
+/* =========================================================
+   CHECK LIST
+   ========================================================= */
+
+.check-list{
+    margin-top:15px;
+}
+
+.check-item{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:9px;
+
+    padding:9px;
+
+    background:#0b131f;
+
+    border:1px solid #1d293c;
+
+    border-radius:6px;
+
+    margin-bottom:6px;
+
+    font-size:8px;
+
+    transition:.2s;
+}
+
+.check-status{
+
+    width:17px;
+    height:17px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:#182333;
+
+    color:#647187;
+
+    font-size:8px;
+}
+
+.check-item.running{
+
+    border-color:#315ca8;
+
+    animation:
+        warningPulse 1.3s infinite;
+}
+
+.check-item.running .check-status{
+
+    background:#19355e;
+
+    color:#5794ff;
+}
+
+.check-item.success{
+
+    border-color:#1d4b38;
+}
+
+.check-item.success .check-status{
+
+    background:#103524;
+
+    color:#35d58a;
+}
+
+.check-item.fail{
+
+    border-color:#56272c;
+}
+
+.check-item.fail .check-status{
+
+    background:#3a171b;
+
+    color:#ef4444;
+}
+
+
+/* =========================================================
+   TERMINAL
+   ========================================================= */
+
+.terminal-panel{
+
+    padding:18px;
+
+    display:flex;
+
+    flex-direction:column;
+}
+
+.terminal-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:10px;
+}
+
+.terminal-title{
+
+    font-size:10px;
+
+    color:#8794aa;
+}
+
+.terminal-status{
+
+    font-size:8px;
+
+    color:#35d58a;
+}
+
+.terminal{
+
+    flex:1;
+
+    position:relative;
+
+    background:#050a11;
+
+    border:1px solid #1b2739;
+
+    border-radius:8px;
+
+    padding:15px;
+
+    font-family:Consolas,monospace;
+
+    font-size:9px;
+
+    line-height:1.8;
+
+    overflow:auto;
+
+    min-height:330px;
+}
+
+.terminal.scanning::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    right:0;
+
+    height:2px;
+
+    background:#397cff55;
+
+    animation:
+        terminalScan 1.8s linear infinite;
+}
+
+.terminal-line{
+    white-space:pre-wrap;
+}
+
+.prompt{
+    color:#4d8cff;
+}
+
+.command{
+    color:#e5e7eb;
+}
+
+.output{
+    color:#9aa7bb;
+}
+
+.success-output{
+    color:#35d58a;
+}
+
+.warning-output{
+    color:#f59e0b;
+}
+
+.error-output{
+    color:#ef4444;
+}
+
+.terminal-cursor{
+
+    display:inline-block;
+
+    width:6px;
+    height:11px;
+
+    background:#35d58a;
+
+    animation:
+        cursorBlink 1s infinite;
+}
+
+@keyframes cursorBlink{
+
+    50%{
+        opacity:0;
+    }
+
+}
+
+@keyframes terminalScan{
+
+    from{
+        top:0;
+    }
+
+    to{
+        top:100%;
+    }
+
+}
+
+
+/* =========================================================
+   PRECHECK FOOTER
+   ========================================================= */
+
+.precheck-footer{
+
+    padding:13px 18px;
+
+    border-top:1px solid #1d293c;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+}
+
+.progress-container{
+    width:65%;
+}
+
+.progress-label{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    color:#6f7d93;
+
+    font-size:8px;
+
+    margin-bottom:6px;
+}
+
+.progress{
+
+    height:5px;
+
+    background:#1b2638;
+
+    border-radius:10px;
+
+    overflow:hidden;
+}
+
+.progress-bar{
+
+    width:0%;
+
+    height:100%;
+
+    background:linear-gradient(
+        90deg,
+        #286cf6,
+        #7548ef
+    );
+
+    transition:.4s;
+}
+
+.footer-buttons{
+
+    display:flex;
+
+    gap:7px;
+}
+
+.footer-btn{
+
+    background:#111a29;
+
+    border:1px solid #29364c;
+
+    color:#8794aa;
+
+    padding:8px 12px;
+
+    border-radius:6px;
+
+    font-size:8px;
+
+    cursor:pointer;
+}
+
+.footer-btn.primary{
+
+    background:linear-gradient(
+        90deg,
+        #286cf6,
+        #6646e8
+    );
+
+    color:white;
+
+    border:none;
+}
+
+.footer-btn:disabled{
+
+    opacity:.5;
+
+    cursor:not-allowed;
+}
+
+
+/* =========================================================
+   ANIMATIONS
+   ========================================================= */
+
+@keyframes criticalPulse{
+
+    0%{
+        box-shadow:
+            0 0 0 rgba(239,68,68,0);
+    }
+
+    50%{
+        box-shadow:
+            0 0 18px rgba(239,68,68,.65),
+            inset 0 0 12px rgba(239,68,68,.08);
+    }
+
+    100%{
+        box-shadow:
+            0 0 0 rgba(239,68,68,0);
+    }
+
+}
+
+@keyframes warningPulse{
+
+    0%{
+        box-shadow:
+            0 0 0 rgba(245,158,11,0);
+    }
+
+    50%{
+        box-shadow:
+            0 0 18px rgba(245,158,11,.55),
+            inset 0 0 12px rgba(245,158,11,.08);
+    }
+
+    100%{
+        box-shadow:
+            0 0 0 rgba(245,158,11,0);
+    }
+
+}
+
+@keyframes alertFlash{
+
+    0%{
+        transform:scale(1);
+    }
+
+    30%{
+        transform:scale(1.025);
+    }
+
+    60%{
+        transform:scale(.995);
+    }
+
+    100%{
+        transform:scale(1);
+    }
+
+}
+
+@keyframes redBlink{
+
+    0%,100%{
+        opacity:1;
+    }
+
+    50%{
+        opacity:.35;
+    }
+
+}
+
+@keyframes slideAlert{
+
+    from{
+        opacity:0;
+        transform:translateX(25px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateX(0);
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media(max-width:1200px){
+
+    .kpi-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .device-types{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .content-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:800px){
+
+    .sidebar{
+        width:65px;
+    }
+
+    .logo h2,
+    .logo span,
+    nav a:not(.active){
+        display:none;
+    }
+
+    .logo{
+        justify-content:center;
+    }
+
+    .main{
+
+        margin-left:65px;
+
+        width:calc(100% - 65px);
+
+        padding:20px;
+    }
+
+    .kpi-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .device-types,
+    .down-grid{
+        grid-template-columns:1fr;
+    }
+
+    .precheck-body{
+        grid-template-columns:1fr;
+    }
+
+    .device-info-panel{
+
+        border-right:none;
+
+        border-bottom:1px solid #1d293c;
+    }
+
+    .top-actions .live,
+    .user{
+        display:none;
+    }
+
+    .noc-notification{
+
+        width:calc(100vw - 40px);
+
+        right:20px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+<!-- =========================================================
+     SIDEBAR
+     ========================================================= -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            N
+        </div>
+
+        <div>
+
+            <h2>Nutrien</h2>
+
+            <span>
+                Network Operations
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <nav>
+
+        <a class="active" onclick="scrollToTop()">
+
+            <span class="nav-icon">
+                ◉
+            </span>
+
+            Dashboard
+
+        </a>
+
+
+        <a onclick="scrollToInventory()">
+
+            <span class="nav-icon">
+                ▣
+            </span>
+
+            Device Inventory
+
+        </a>
+
+
+        <a onclick="scrollToDownDevices()">
+
+            <span class="nav-icon">
+                ⚠
+            </span>
+
+            Down Devices
+
+            <span
+                class="badge"
+                id="navDownCount">
+                4
+            </span>
+
+        </a>
+
+
+        <a onclick="scrollToThreshold()">
+
+            <span class="nav-icon">
+                ⌁
+            </span>
+
+            Link Monitoring
+
+        </a>
+
+
+        <a onclick="showAutomationInfo()">
+
+            <span class="nav-icon">
+                ⚙
+            </span>
+
+            Automation
+
+        </a>
+
+
+        <a onclick="scrollToEvents()">
+
+            <span class="nav-icon">
+                ▤
+            </span>
+
+            Logs
+
+        </a>
+
+    </nav>
+
+
+    <div class="system">
+
+        <div class="system-dot"></div>
+
+        <div>
+
+            <strong>
+                IQ200 Engine Active
+            </strong>
+
+            <small>
+                Monitoring infrastructure
+            </small>
+
+        </div>
+
+    </div>
+
+</aside>
+
+
+<!-- =========================================================
+     MAIN
+     ========================================================= -->
+
+<main class="main" id="dashboard">
+
+
+<!-- =========================================================
+     HEADER
+     ========================================================= -->
+
+<header class="topbar">
+
+    <div>
+
+        <h1>
+            Network Operations Center
+        </h1>
+
+        <p>
+            IQ200 intelligent monitoring & automated pre-check engine
+        </p>
+
+    </div>
+
+
+    <div class="top-actions">
+
+        <div class="live">
+
+            <span class="live-dot"></span>
+
+            LIVE MONITORING
+
+        </div>
+
+
+        <button
+            class="notification"
+            onclick="showNotificationCenter()">
+
+            🔔
+
+        </button>
+
+
+        <div class="user">
+
+            <div class="avatar">
+                S
+            </div>
+
+            <div>
+
+                <strong>
+                    Shubham
+                </strong>
+
+                <small>
+                    Network Engineer
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================================
+     KPI
+     ========================================================= -->
+
+<section class="kpi-grid">
+
+
+    <div class="kpi">
+
+        <div class="kpi-title">
+            TOTAL DEVICES
+        </div>
+
+        <div
+            class="kpi-value"
+            id="totalDevices">
+            248
+        </div>
+
+        <div class="kpi-footer">
+
+            <span class="green">
+                ▲ 2.4%
+            </span>
+
+            <span>
+                vs yesterday
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="kpi">
+
+        <div class="kpi-title">
+            HEALTHY DEVICES
+        </div>
+
+        <div
+            class="kpi-value green"
+            id="healthyDevices">
+            239
+        </div>
+
+        <div class="kpi-footer">
+
+            <span id="healthPercentage">
+                96.3%
+            </span>
+
+            <span>
+                Health Score
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="kpi">
+
+        <div class="kpi-title">
+            DEVICES DOWN
+        </div>
+
+        <div
+            class="kpi-value red"
+            id="downKpi">
+            4
+        </div>
+
+        <div class="kpi-footer">
+
+            <span class="red">
+                ACTION REQUIRED
+            </span>
+
+            <span>
+                Auto detection
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="kpi">
+
+        <div class="kpi-title">
+            THRESHOLD BREACH
+        </div>
+
+        <div
+            class="kpi-value orange"
+            id="thresholdKpi">
+            7
+        </div>
+
+        <div class="kpi-footer">
+
+            <span class="orange">
+                <span id="criticalThresholdCount">
+                    3
+                </span>
+                Critical
+            </span>
+
+            <span>
+                <span id="warningThresholdCount">
+                    4
+                </span>
+                Warning
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="kpi">
+
+        <div class="kpi-title">
+            PRECHECKS TODAY
+        </div>
+
+        <div
+            class="kpi-value blue"
+            id="precheckCounter">
+            18
+        </div>
+
+        <div class="kpi-footer">
+
+            <span class="green">
+                +3 completed
+            </span>
+
+            <span>
+                Today
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     INFRASTRUCTURE
+     ========================================================= -->
+
+<section class="section">
+
+    <div class="section-header">
+
+        <div>
+
+            <h2>
+                Infrastructure Overview
+            </h2>
+
+            <p>
+                Device categories monitored independently
+            </p>
+
+        </div>
+
+
+        <button
+            class="demo-button"
+            onclick="simulateFailure()">
+
+            ⚡ Simulate Device Failure
+
+        </button>
+
+    </div>
+
+
+    <div class="device-types">
+
+
+        <div
+            class="type-card"
+            id="routerCard">
+
+            <div class="type-header">
+
+                <div class="type-icon router-icon">
+                    RTR
+                </div>
+
+                <span class="green">
+                    ● ONLINE
+                </span>
+
+            </div>
+
+            <div class="type-name">
+                Routers
+            </div>
+
+            <div
+                class="type-count"
+                id="routerCount">
+                42
+            </div>
+
+            <div
+                class="type-status"
+                id="routerStatus">
+                <span class="type-danger">
+                    1 Down
+                </span>
+                · 41 Online
+            </div>
+
+        </div>
+
+
+        <div
+            class="type-card"
+            id="switchCard">
+
+            <div class="type-header">
+
+                <div class="type-icon switch-icon">
+                    SW
+                </div>
+
+                <span class="green">
+                    ● ONLINE
+                </span>
+
+            </div>
+
+            <div class="type-name">
+                Switches
+            </div>
+
+            <div
+                class="type-count"
+                id="switchCount">
+                118
+            </div>
+
+            <div
+                class="type-status"
+                id="switchStatus">
+                <span class="type-danger">
+                    2 Down
+                </span>
+                · 116 Online
+            </div>
+
+        </div>
+
+
+        <div
+            class="type-card"
+            id="apCard">
+
+            <div class="type-header">
+
+                <div class="type-icon ap-icon">
+                    AP
+                </div>
+
+                <span class="green">
+                    ● ONLINE
+                </span>
+
+            </div>
+
+            <div class="type-name">
+                Access Points
+            </div>
+
+            <div
+                class="type-count"
+                id="apCount">
+                82
+            </div>
+
+            <div
+                class="type-status"
+                id="apStatus">
+                <span class="type-danger">
+                    1 Down
+                </span>
+                · 81 Online
+            </div>
+
+        </div>
+
+
+        <div
+            class="type-card"
+            id="linkCard">
+
+            <div class="type-header">
+
+                <div class="type-icon link-icon">
+                    WAN
+                </div>
+
+                <span class="red">
+                    ● 1 DOWN
+                </span>
+
+            </div>
+
+            <div class="type-name">
+                Network Links
+            </div>
+
+            <div class="type-count">
+                6
+            </div>
+
+            <div class="type-status">
+
+                <span class="type-danger">
+                    1 Down
+                </span>
+
+                · 5 Healthy
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     DOWN DEVICES
+     ========================================================= -->
+
+<section
+    class="down-section"
+    id="downSection">
+
+    <div class="down-title">
+
+        <div>
+
+            <h2>
+                🔴 Devices Currently DOWN
+            </h2>
+
+            <p>
+                Select a device to investigate and run pre-checks
+            </p>
+
+        </div>
+
+
+        <span class="down-count">
+
+            <span id="downCount">
+                4
+            </span>
+
+            DEVICES
+
+        </span>
+
+    </div>
+
+
+    <div
+        class="down-grid"
+        id="downDeviceContainer">
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     INVENTORY + THRESHOLD
+     ========================================================= -->
+
+<section
+    class="content-grid"
+    id="inventorySection">
+
+
+<!-- INVENTORY -->
+
+<div class="panel">
+
+    <div class="panel-header">
+
+        <div>
+
+            <h2>
+                Device Site Inventory
+            </h2>
+
+            <p>
+                Device ownership, location and operational state
+            </p>
+
+        </div>
+
+
+        <button
+            class="demo-button"
+            onclick="exportCSV()">
+
+            Export CSV
+
+        </button>
+
+    </div>
+
+
+    <div class="inventory">
+
+
+        <div class="inventory-row inventory-head">
+
+            <span>
+                DEVICE
+            </span>
+
+            <span>
+                SITE
+            </span>
+
+            <span>
+                TYPE
+            </span>
+
+            <span>
+                STATUS
+            </span>
+
+            <span>
+                UPTIME
+            </span>
+
+        </div>
+
+
+        <div class="inventory-row">
+
+            <span class="site">
+                RTR-MUM-CORE-01
+            </span>
+
+            <span>
+                Mumbai DC
+            </span>
+
+            <span>
+                Router
+            </span>
+
+            <span class="down">
+                DOWN
+            </span>
+
+            <span>
+                --
+            </span>
+
+        </div>
+
+
+        <div class="inventory-row">
+
+            <span class="site">
+                SW-PUNE-03
+            </span>
+
+            <span>
+                Pune Office
+            </span>
+
+            <span>
+                Switch
+            </span>
+
+            <span class="down">
+                DOWN
+            </span>
+
+            <span>
+                --
+            </span>
+
+        </div>
+
+
+        <div class="inventory-row">
+
+            <span class="site">
+                SW-BLR-EDGE-02
+            </span>
+
+            <span>
+                Bangalore
+            </span>
+
+            <span>
+                Switch
+            </span>
+
+            <span class="down">
+                DOWN
+            </span>
+
+            <span>
+                --
+            </span>
+
+        </div>
+
+
+        <div class="inventory-row">
+
+            <span class="site">
+                AP-PUNE-22
+            </span>
+
+            <span>
+                Pune Office
+            </span>
+
+            <span>
+                Access Point
+            </span>
+
+            <span class="down">
+                DOWN
+            </span>
+
+            <span>
+                --
+            </span>
+
+        </div>
+
+
+        <div class="inventory-row">
+
+            <span class="site">
+                RTR-DEL-EDGE-01
+            </span>
+
+            <span>
+                Delhi DC
+            </span>
+
+            <span>
+                Router
+            </span>
+
+            <span class="online">
+                ONLINE
+            </span>
+
+            <span>
+                142d
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- THRESHOLDS -->
+
+<div
+    class="panel"
+    id="thresholdSection">
+
+    <div class="panel-header">
+
+        <div>
+
+            <h2>
+                Threshold Breach Monitor
+            </h2>
+
+            <p>
+                Real-time performance thresholds
+            </p>
+
+        </div>
+
+
+        <span
+            class="orange"
+            id="breachHeader">
+            7 Breaches
+        </span>
+
+    </div>
+
+
+    <div
+        class="threshold-row"
+        data-device="RTR-MUM-CORE-01"
+        data-metric="CPU">
+
+        <div class="threshold-top">
+
+            <span>
+                RTR-MUM-CORE-01 CPU
+            </span>
+
+            <span
+                class="red"
+                id="cpuMumValue">
+                91% / 80%
+            </span>
+
+        </div>
+
+
+        <div class="threshold-bar">
+
+            <div
+                class="threshold-fill fill-red"
+                id="cpuMumBar"
+                style="width:91%">
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div
+        class="threshold-row"
+        data-device="SW-PUNE-03"
+        data-metric="Interface">
+
+        <div class="threshold-top">
+
+            <span>
+                SW-PUNE-03 Interface
+            </span>
+
+            <span
+                class="orange"
+                id="switchPuneValue">
+                86% / 80%
+            </span>
+
+        </div>
+
+
+        <div class="threshold-bar">
+
+            <div
+                class="threshold-fill fill-orange"
+                id="switchPuneBar"
+                style="width:86%">
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div
+        class="threshold-row"
+        data-device="WAN-MUM-ISP01"
+        data-metric="Utilization">
+
+        <div class="threshold-top">
+
+            <span>
+                WAN-MUM-ISP01
+            </span>
+
+            <span class="red">
+                94% / 85%
+            </span>
+
+        </div>
+
+
+        <div class="threshold-bar">
+
+            <div
+                class="threshold-fill fill-red"
+                style="width:94%">
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div
+        class="threshold-row"
+        data-device="AP-PUNE-22"
+        data-metric="Channel">
+
+        <div class="threshold-top">
+
+            <span>
+                AP-PUNE-22 Channel
+            </span>
+
+            <span class="orange">
+                83% / 80%
+            </span>
+
+        </div>
+
+
+        <div class="threshold-bar">
+
+            <div
+                class="threshold-fill fill-orange"
+                style="width:83%">
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     EVENT LOG
+     ========================================================= -->
+
+<section
+    class="panel events"
+    id="eventsSection">
+
+    <div class="panel-header">
+
+        <div>
+
+            <h2>
+                IQ200 Event Stream
+            </h2>
+
+            <p>
+                Real-time network events
+            </p>
+
+        </div>
+
+
+        <span class="green">
+            ● LIVE
+        </span>
+
+    </div>
+
+
+    <div id="eventContainer">
+
+        <div class="event">
+
+            <span class="event-time">
+                05:12:41
+            </span>
+
+            <span class="event-type red">
+                CRITICAL
+            </span>
+
+            <span class="event-text">
+                RTR-MUM-CORE-01 changed state to DOWN
+            </span>
+
+        </div>
+
+
+        <div class="event">
+
+            <span class="event-time">
+                05:12:43
+            </span>
+
+            <span class="event-type blue">
+                IQ200
+            </span>
+
+            <span class="event-text">
+                Device failure detected. Awaiting engineer action.
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+</main>
+
+</div>
+
+
+<!-- =========================================================
+     PRECHECK MODAL
+     ========================================================= -->
+
+<div
+    class="modal"
+    id="precheckModal">
+
+<div class="precheck-window">
+
+
+<!-- MODAL HEADER -->
+
+<div class="modal-header">
+
+    <div class="modal-title">
+
+        <div class="robot">
+            🤖
+        </div>
+
+        <div>
+
+            <strong>
+                IQ200 Automatic Pre-Check Engine
+            </strong>
+
+            <small id="modalSubtitle">
+                Device diagnostics
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <div>
+
+        <span
+            class="modal-state"
+            id="modalState">
+            READY
+        </span>
+
+
+        <button
+            class="close"
+            onclick="closeModal()">
+
+            ×
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- PRECHECK BODY -->
+
+<div class="precheck-body">
+
+
+<!-- DEVICE INFORMATION -->
+
+<div class="device-info-panel">
+
+    <div class="info-title">
+        DEVICE INFORMATION
+    </div>
+
+
+    <div class="info-card">
+
+        <div class="info-row">
+
+            <span>
+                Hostname
+            </span>
+
+            <span id="infoHostname">
+                --
+            </span>
+
+        </div>
+
+
+        <div class="info-row">
+
+            <span>
+                Site
+            </span>
+
+            <span id="infoSite">
+                --
+            </span>
+
+        </div>
+
+
+        <div class="info-row">
+
+            <span>
+                Device Type
+            </span>
+
+            <span id="infoType">
+                --
+            </span>
+
+        </div>
+
+
+        <div class="info-row">
+
+            <span>
+                IP Address
+            </span>
+
+            <span id="infoIP">
+                --
+            </span>
+
+        </div>
+
+
+        <div class="info-row">
+
+            <span>
+                Vendor
+            </span>
+
+            <span id="infoVendor">
+                --
+            </span>
+
+        </div>
+
+
+        <div class="info-row">
+
+            <span>
+                Firmware
+            </span>
+
+            <span id="infoFirmware">
+                --
+            </span>
+
+        </div>
+
+
+        <div class="info-row">
+
+            <span>
+                Last Seen
+            </span>
+
+            <span id="infoLastSeen">
+                --
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="info-title">
+        PRE-CHECK WORKFLOW
+    </div>
+
+
+    <div
+        class="check-list"
+        id="checkList">
+
+
+        <div
+            class="check-item"
+            data-check="0">
+
+            <div class="check-status">
+                1
+            </div>
+
+            Ping / Reachability
+
+        </div>
+
+
+        <div
+            class="check-item"
+            data-check="1">
+
+            <div class="check-status">
+                2
+            </div>
+
+            show ip interface brief
+
+        </div>
+
+
+        <div
+            class="check-item"
+            data-check="2">
+
+            <div class="check-status">
+                3
+            </div>
+
+            show ip bgp summary
+
+        </div>
+
+
+        <div
+            class="check-item"
+            data-check="3">
+
+            <div class="check-status">
+                4
+            </div>
+
+            show ip route
+
+        </div>
+
+
+        <div
+            class="check-item"
+            data-check="4">
+
+            <div class="check-status">
+                5
+            </div>
+
+            CPU / Memory
+
+        </div>
+
+
+        <div
+            class="check-item"
+            data-check="5">
+
+            <div class="check-status">
+                6
+            </div>
+
+            Interface Errors
+
+        </div>
+
+
+        <div
+            class="check-item"
+            data-check="6">
+
+            <div class="check-status">
+                7
+            </div>
+
+            Link Utilization
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- TERMINAL -->
+
+<div class="terminal-panel">
+
+    <div class="terminal-header">
+
+        <span class="terminal-title">
+            SSH / CLI Diagnostic Session
+        </span>
+
+        <span
+            class="terminal-status"
+            id="terminalStatus">
+            Waiting
+        </span>
+
+    </div>
+
+
+    <div
+        class="terminal"
+        id="terminal">
+
+        <div class="terminal-line output">
+            IQ200 Network Automation Engine v2.4
+        </div>
+
+        <div class="terminal-line output">
+            Waiting for pre-check execution...
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<!-- FOOTER -->
+
+<div class="precheck-footer">
+
+    <div class="progress-container">
+
+        <div class="progress-label">
+
+            <span>
+                Pre-check Progress
+            </span>
+
+            <span id="progressText">
+                0%
+            </span>
+
+        </div>
+
+
+        <div class="progress">
+
+            <div
+                class="progress-bar"
+                id="progressBar">
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer-buttons">
+
+        <button
+            class="footer-btn"
+            onclick="clearTerminal()">
+
+            Clear
+
+        </button>
+
+
+        <button
+            class="footer-btn primary"
+            id="startButton"
+            onclick="startPrecheck()">
+
+            ▶ Start Pre-Checks
+
+        </button>
+
+    </div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   IQ200 DEMO DATABASE
+   ========================================================= */
+
+const deviceDB = [
+
+    {
+        id:1,
+        hostname:"RTR-MUM-CORE-01",
+        site:"Mumbai Data Center",
+        type:"Router",
+        ip:"10.10.10.1",
+        vendor:"Cisco",
+        firmware:"17.9.4",
+        lastSeen:"05:12:39",
+        status:"DOWN",
+        cpu:91,
+        memory:78,
+        utilization:94
+    },
+
+    {
+        id:2,
+        hostname:"SW-PUNE-03",
+        site:"Pune Office",
+        type:"Switch",
+        ip:"10.20.30.3",
+        vendor:"Cisco",
+        firmware:"16.12.8",
+        lastSeen:"05:08:11",
+        status:"DOWN",
+        cpu:74,
+        memory:69,
+        utilization:86
+    },
+
+    {
+        id:3,
+        hostname:"SW-BLR-EDGE-02",
+        site:"Bangalore Office",
+        type:"Switch",
+        ip:"10.30.20.2",
+        vendor:"Cisco",
+        firmware:"17.6.5",
+        lastSeen:"04:59:43",
+        status:"DOWN",
+        cpu:67,
+        memory:61,
+        utilization:72
+    },
+
+    {
+        id:4,
+        hostname:"AP-PUNE-22",
+        site:"Pune Office",
+        type:"Access Point",
+        ip:"10.20.40.22",
+        vendor:"Cisco Meraki",
+        firmware:"18.107",
+        lastSeen:"05:01:22",
+        status:"DOWN",
+        cpu:82,
+        memory:71,
+        utilization:83
+    },
+
+    {
+        id:5,
+        hostname:"RTR-DEL-EDGE-01",
+        site:"Delhi Data Center",
+        type:"Router",
+        ip:"10.40.10.1",
+        vendor:"Cisco",
+        firmware:"17.9.4",
+        lastSeen:"05:13:10",
+        status:"ONLINE",
+        cpu:42,
+        memory:55,
+        utilization:63
+    }
+
+];
+
+
+/* =========================================================
+   GLOBAL STATE
+   ========================================================= */
+
+let currentDevice = null;
+
+let precheckRunning = false;
+
+let completedChecks = 0;
+
+const totalChecks = 7;
+
+let thresholdAlerts =
+    new Set();
+
+let notificationHistory =
+    [];
+
+
+/* =========================================================
+   LOAD DOWN DEVICES
+   ========================================================= */
+
+function loadDownDevices(){
+
+    const container =
+        document.getElementById(
+            "downDeviceContainer"
+        );
+
+
+    container.innerHTML = "";
+
+
+    const downDevices =
+        deviceDB.filter(
+            device =>
+                device.status === "DOWN"
+        );
+
+
+    document.getElementById(
+        "downCount"
+    ).innerText =
+        downDevices.length;
+
+
+    document.getElementById(
+        "downKpi"
+    ).innerText =
+        downDevices.length;
+
+
+    document.getElementById(
+        "navDownCount"
+    ).innerText =
+        downDevices.length;
+
+
+    updateHealthyKPI();
+
+
+    downDevices.forEach(device => {
+
+        const card =
+            document.createElement("div");
+
+
+        card.className =
+            "down-device";
+
+
+        card.innerHTML = `
+
+            <div class="down-device-header">
+
+                <span class="device-name">
+                    ${device.hostname}
+                </span>
+
+                <span class="device-status">
+                    ● DOWN
+                </span>
+
+            </div>
+
+
+            <div class="device-meta">
+
+                <span>
+                    📍 ${device.site}
+                </span>
+
+                <span>
+                    ◉ ${device.type}
+                </span>
+
+            </div>
+
+
+            <div class="device-meta">
+
+                IP: ${device.ip}
+
+                ·
+
+                Last Seen: ${device.lastSeen}
+
+            </div>
+
+
+            <div class="device-actions">
+
+                <button
+                    class="precheck-btn"
+                    onclick="openPrecheck(${device.id})">
+
+                    ▶ Start Pre-Checks
+
+                </button>
+
+
+                <button
+                    class="details-btn"
+                    onclick="openPrecheck(${device.id})">
+
+                    Details
+
+                </button>
+
+            </div>
+
+        `;
+
+
+        container.appendChild(card);
+
+    });
+
+
+    updateDeviceTypeCards();
+
+}
+
+
+/* =========================================================
+   UPDATE HEALTH KPI
+   ========================================================= */
+
+function updateHealthyKPI(){
+
+    const total =
+        deviceDB.length;
+
+
+    const down =
+        deviceDB.filter(
+            device =>
+                device.status === "DOWN"
+        ).length;
+
+
+    const healthy =
+        total - down;
+
+
+    document.getElementById(
+        "healthyDevices"
+    ).innerText =
+        healthy;
+
+
+    const percentage =
+        ((healthy / total) * 100)
+        .toFixed(1);
+
+
+    document.getElementById(
+        "healthPercentage"
+    ).innerText =
+        percentage + "%";
+
+}
+
+
+/* =========================================================
+   UPDATE DEVICE TYPE CARDS
+   ========================================================= */
+
+function updateDeviceTypeCards(){
+
+    const types = {
+
+        "Router":
+            "router",
+
+        "Switch":
+            "switch",
+
+        "Access Point":
+            "ap"
+
+    };
+
+
+    Object.keys(types).forEach(type => {
+
+        const prefix =
+            types[type];
+
+
+        const devices =
+            deviceDB.filter(
+                device =>
+                    device.type === type
+            );
+
+
+        const down =
+            devices.filter(
+                device =>
+                    device.status === "DOWN"
+            ).length;
+
+
+        const online =
+            devices.length - down;
+
+
+        const statusElement =
+            document.getElementById(
+                prefix + "Status"
+            );
+
+
+        const card =
+            document.getElementById(
+                prefix + "Card"
+            );
+
+
+        if(statusElement){
+
+            statusElement.innerHTML = `
+
+                <span class="type-danger">
+                    ${down} Down
+                </span>
+
+                ·
+
+                ${online} Online
+
+            `;
+
+        }
+
+
+        if(card){
+
+            if(down > 0){
+
+                card.classList.add(
+                    "type-alert"
+                );
+
+            }
+            else{
+
+                card.classList.remove(
+                    "type-alert"
+                );
+
+            }
+
+        }
+
+    });
+
+}
+
+
+/* =========================================================
+   OPEN PRECHECK
+   ========================================================= */
+
+function openPrecheck(deviceId){
+
+    currentDevice =
+        deviceDB.find(
+            device =>
+                device.id === deviceId
+        );
+
+
+    if(!currentDevice){
+        return;
+    }
+
+
+    document.getElementById(
+        "precheckModal"
+    ).classList.add("show");
+
+
+    document.getElementById(
+        "infoHostname"
+    ).innerText =
+        currentDevice.hostname;
+
+
+    document.getElementById(
+        "infoSite"
+    ).innerText =
+        currentDevice.site;
+
+
+    document.getElementById(
+        "infoType"
+    ).innerText =
+        currentDevice.type;
+
+
+    document.getElementById(
+        "infoIP"
+    ).innerText =
+        currentDevice.ip;
+
+
+    document.getElementById(
+        "infoVendor"
+    ).innerText =
+        currentDevice.vendor;
+
+
+    document.getElementById(
+        "infoFirmware"
+    ).innerText =
+        currentDevice.firmware;
+
+
+    document.getElementById(
+        "infoLastSeen"
+    ).innerText =
+        currentDevice.lastSeen;
+
+
+    document.getElementById(
+        "modalSubtitle"
+    ).innerText =
+        `${currentDevice.hostname} · ${currentDevice.site}`;
+
+
+    resetPrecheckUI();
+
+}
+
+
+/* =========================================================
+   RESET PRECHECK UI
+   ========================================================= */
+
+function resetPrecheckUI(){
+
+    precheckRunning = false;
+
+    completedChecks = 0;
+
+
+    document.getElementById(
+        "modalState"
+    ).innerText =
+        "READY";
+
+
+    document.getElementById(
+        "terminalStatus"
+    ).innerText =
+        "Waiting";
+
+
+    document.getElementById(
+        "progressBar"
+    ).style.width =
+        "0%";
+
+
+    document.getElementById(
+        "progressText"
+    ).innerText =
+        "0%";
+
+
+    const terminal =
+        document.getElementById(
+            "terminal"
+        );
+
+
+    terminal.classList.remove(
+        "scanning"
+    );
+
+
+    terminal.innerHTML = `
+
+        <div class="terminal-line output">
+            IQ200 Network Automation Engine v2.4
+        </div>
+
+        <div class="terminal-line output">
+            Target Device: ${currentDevice.hostname}
+        </div>
+
+        <div class="terminal-line output">
+            Site: ${currentDevice.site}
+        </div>
+
+        <div class="terminal-line output">
+            Status: ${currentDevice.status}
+        </div>
+
+        <div class="terminal-line output">
+            Ready to start automated pre-checks...
+        </div>
+
+    `;
+
+
+    document
+        .querySelectorAll(".check-item")
+        .forEach(
+            (item,index)=>{
+
+                item.className =
+                    "check-item";
+
+
+                item.querySelector(
+                    ".check-status"
+                ).innerText =
+                    index + 1;
+
+            }
+        );
+
+
+    document.getElementById(
+        "startButton"
+    ).disabled =
+        false;
+
+
+    document.getElementById(
+        "startButton"
+    ).innerText =
+        "▶ Start Pre-Checks";
+
+}
+
+
+/* =========================================================
+   CLOSE MODAL
+   ========================================================= */
+
+function closeModal(){
+
+    if(precheckRunning){
+
+        const confirmClose =
+            confirm(
+                "Pre-check is currently running. Close anyway?"
+            );
+
+
+        if(!confirmClose){
+            return;
+        }
+
+    }
+
+
+    document.getElementById(
+        "precheckModal"
+    ).classList.remove(
+        "show"
+    );
+
+}
+
+
+/* =========================================================
+   TERMINAL PRINT
+   ========================================================= */
+
+function terminalPrint(
+    text,
+    type="output"
+){
+
+    const terminal =
+        document.getElementById(
+            "terminal"
+        );
+
+
+    const line =
+        document.createElement(
+            "div"
+        );
+
+
+    line.className =
+        `terminal-line ${type}`;
+
+
+    line.innerText =
+        text;
+
+
+    terminal.appendChild(
+        line
+    );
+
+
+    terminal.scrollTop =
+        terminal.scrollHeight;
+
+}
+
+
+/* =========================================================
+   CHECK DATABASE
+   ========================================================= */
+
+const checks = [
+
+    {
+
+        name:
+            "Ping / Reachability",
+
+        command:
+            "ping ",
+
+        run:function(){
+
+            terminalPrint(
+                `PING ${currentDevice.ip} ...`,
+                "command"
+            );
+
+
+            terminalPrint(
+                "Request timeout.",
+                "error-output"
+            );
+
+
+            terminalPrint(
+                "Packet loss = 100%",
+                "error-output"
+            );
+
+        }
+
+    },
+
+
+    {
+
+        name:
+            "show ip interface brief",
+
+        command:
+            "show ip interface brief",
+
+        run:function(){
+
+            terminalPrint(
+                "Interface              IP-Address      Status",
+                "command"
+            );
+
+
+            terminalPrint(
+                "GigabitEthernet0/0     10.10.10.1      down",
+                "error-output"
+            );
+
+
+            terminalPrint(
+                "GigabitEthernet0/1     unassigned      down",
+                "error-output"
+            );
+
+
+            terminalPrint(
+                "Loopback0              10.255.1.1      up",
+                "success-output"
+            );
+
+        }
+
+    },
+
+
+    {
+
+        name:
+            "show ip bgp summary",
+
+        command:
+            "show ip bgp summary",
+
+        run:function(){
+
+            terminalPrint(
+                "BGP router identifier: 10.255.1.1",
+                "command"
+            );
+
+
+            terminalPrint(
+                "Neighbor           State/PfxRcd",
+                "output"
+            );
+
+
+            terminalPrint(
+                "10.10.100.1        Active",
+                "warning-output"
+            );
+
+
+            terminalPrint(
+                "10.10.100.2        Idle",
+                "error-output"
+            );
+
+        }
+
+    },
+
+
+    {
+
+        name:
+            "show ip route",
+
+        command:
+            "show ip route",
+
+        run:function(){
+
+            terminalPrint(
+                "Codes: C - connected, S - static, B - BGP",
+                "command"
+            );
+
+
+            terminalPrint(
+                "C 10.10.10.0/24 is directly connected",
+                "output"
+            );
+
+
+            terminalPrint(
+                "B 172.16.0.0/16 via 10.10.100.1",
+                "success-output"
+            );
+
+
+            terminalPrint(
+                "WARNING: Expected routes missing: 3",
+                "warning-output"
+            );
+
+        }
+
+    },
+
+
+    {
+
+        name:
+            "CPU / Memory",
+
+        command:
+            "show processes cpu | include CPU",
+
+        run:function(){
+
+            terminalPrint(
+                `CPU Utilization = ${currentDevice.cpu}%`,
+                currentDevice.cpu > 80
+                    ? "error-output"
+                    : "success-output"
+            );
+
+
+            terminalPrint(
+                `Memory Utilization = ${currentDevice.memory}%`,
+                currentDevice.memory > 80
+                    ? "error-output"
+                    : "success-output"
+            );
+
+        }
+
+    },
+
+
+    {
+
+        name:
+            "Interface Errors",
+
+        command:
+            "show interfaces counters errors",
+
+        run:function(){
+
+            terminalPrint(
+                "Interface       CRC     InputErr     OutputErr",
+                "command"
+            );
+
+
+            terminalPrint(
+                "Gi0/0           0       0            12",
+                "warning-output"
+            );
+
+
+            terminalPrint(
+                "Gi0/1           0       0            0",
+                "success-output"
+            );
+
+        }
+
+    },
+
+
+    {
+
+        name:
+            "Link Utilization",
+
+        command:
+            "show interfaces | include rate",
+
+        run:function(){
+
+            terminalPrint(
+                `Current Link Utilization = ${currentDevice.utilization}%`,
+                currentDevice.utilization > 80
+                    ? "warning-output"
+                    : "success-output"
+            );
+
+
+            if(
+                currentDevice.utilization > 80
+            ){
+
+                terminalPrint(
+                    "THRESHOLD BREACH: Utilization > 80%",
+                    "error-output"
+                );
+
+            }
+
+        }
+
+    }
+
+];
+
+
+/* =========================================================
+   START PRECHECK
+   ========================================================= */
+
+async function startPrecheck(){
+
+    if(precheckRunning){
+        return;
+    }
+
+
+    if(!currentDevice){
+        return;
+    }
+
+
+    precheckRunning = true;
+
+    completedChecks = 0;
+
+
+    document.getElementById(
+        "startButton"
+    ).disabled =
+        true;
+
+
+    document.getElementById(
+        "startButton"
+    ).innerText =
+        "⟳ Running...";
+
+
+    document.getElementById(
+        "modalState"
+    ).innerText =
+        "PRE-CHECK RUNNING";
+
+
+    document.getElementById(
+        "terminalStatus"
+    ).innerText =
+        "Connected";
+
+
+    document.getElementById(
+        "terminal"
+    ).classList.add(
+        "scanning"
+    );
+
+
+    terminalPrint("");
+
+
+    terminalPrint(
+        "================================================"
+    );
+
+
+    terminalPrint(
+        "IQ200 AUTOMATION STARTED",
+        "success-output"
+    );
+
+
+    terminalPrint(
+        `Target: ${currentDevice.hostname}`,
+        "command"
+    );
+
+
+    terminalPrint(
+        `Site: ${currentDevice.site}`,
+        "command"
+    );
+
+
+    terminalPrint(
+        `Reason: DEVICE ${currentDevice.status}`,
+        "error-output"
+    );
+
+
+    terminalPrint(
+        "================================================"
+    );
+
+
+    terminalPrint("");
+
+
+    for(
+        let i = 0;
+        i < checks.length;
+        i++
+    ){
+
+        await runCheck(i);
+
+    }
+
+
+    finishPrecheck();
+
+}
+
+
+/* =========================================================
+   RUN INDIVIDUAL CHECK
+   ========================================================= */
+
+function runCheck(index){
+
+    return new Promise(resolve => {
+
+        const check =
+            checks[index];
+
+
+        const item =
+            document.querySelector(
+                `.check-item[data-check="${index}"]`
+            );
+
+
+        item.classList.add(
+            "running"
+        );
+
+
+        item.querySelector(
+            ".check-status"
+        ).innerText =
+            "↻";
+
+
+        terminalPrint(
+            `admin@${currentDevice.hostname}> ${check.command}`,
+            "command"
+        );
+
+
+        setTimeout(()=>{
+
+            check.run();
+
+
+            item.classList.remove(
+                "running"
+            );
+
+
+            /*
+             * Realistic result logic
+             */
+
+            let result =
+                "success";
+
+
+            if(index === 0){
+
+                result =
+                    "fail";
+
+            }
+
+            else if(
+                index === 2 &&
+                currentDevice.type === "Router"
+            ){
+
+                result =
+                    "fail";
+
+            }
+
+            else if(
+                index === 3 &&
+                currentDevice.type === "Router"
+            ){
+
+                result =
+                    "warning";
+
+            }
+
+            else if(
+                index === 6 &&
+                currentDevice.utilization > 80
+            ){
+
+                result =
+                    "warning";
+
+            }
+
+
+            if(
+                result === "success"
+            ){
+
+                item.classList.add(
+                    "success"
+                );
+
+
+                item.querySelector(
+                    ".check-status"
+                ).innerText =
+                    "✓";
+
+            }
+
+            else if(
+                result === "warning"
+            ){
+
+                item.classList.add(
+                    "fail"
+                );
+
+
+                item.querySelector(
+                    ".check-status"
+                ).innerText =
+                    "!";
+
+            }
+
+            else{
+
+                item.classList.add(
+                    "fail"
+                );
+
+
+                item.querySelector(
+                    ".check-status"
+                ).innerText =
+                    "×";
+
+            }
+
+
+            completedChecks++;
+
+
+            const percent =
+                Math.round(
+                    (
+                        completedChecks /
+                        totalChecks
+                    ) * 100
+                );
+
+
+            document.getElementById(
+                "progressBar"
+            ).style.width =
+                percent + "%";
+
+
+            document.getElementById(
+                "progressText"
+            ).innerText =
+                percent + "%";
+
+
+            terminalPrint("");
+
+
+            resolve();
+
+        },1200);
+
+    });
+
+}
+
+
+/* =========================================================
+   FINISH PRECHECK
+   ========================================================= */
+
+function finishPrecheck(){
+
+    precheckRunning =
+        false;
+
+
+    document.getElementById(
+        "modalState"
+    ).innerText =
+        "COMPLETED";
+
+
+    document.getElementById(
+        "terminalStatus"
+    ).innerText =
+        "Session Complete";
+
+
+    document.getElementById(
+        "terminal"
+    ).classList.remove(
+        "scanning"
+    );
+
+
+    document.getElementById(
+        "startButton"
+    ).disabled =
+        false;
+
+
+    document.getElementById(
+        "startButton"
+    ).innerText =
+        "↻ Run Again";
+
+
+    terminalPrint(
+        "================================================"
+    );
+
+
+    terminalPrint(
+        "IQ200 PRE-CHECK COMPLETED",
+        "success-output"
+    );
+
+
+    terminalPrint(
+        `Device: ${currentDevice.hostname}`,
+        "output"
+    );
+
+
+    terminalPrint(
+        `Site: ${currentDevice.site}`,
+        "output"
+    );
+
+
+    terminalPrint(
+        "Reachability: FAILED",
+        "error-output"
+    );
+
+
+    terminalPrint(
+        "Interface Status: ANALYZED",
+        "output"
+    );
+
+
+    terminalPrint(
+        "BGP Neighbors: ATTENTION REQUIRED",
+        "warning-output"
+    );
+
+
+    terminalPrint(
+        "Routing Table: ANALYZED",
+        "output"
+    );
+
+
+    terminalPrint(
+        `CPU: ${currentDevice.cpu}%`,
+        currentDevice.cpu > 80
+            ? "error-output"
+            : "success-output"
+    );
+
+
+    terminalPrint(
+        `Link Utilization: ${currentDevice.utilization}%`,
+        currentDevice.utilization > 80
+            ? "warning-output"
+            : "success-output"
+    );
+
+
+    terminalPrint(
+        "Recommended Action: Engineer investigation required",
+        "warning-output"
+    );
+
+
+    terminalPrint(
+        "================================================"
+    );
+
+
+    addEvent(
+        "IQ200",
+        `Pre-check completed for ${currentDevice.hostname}`
+    );
+
+
+    let counter =
+        parseInt(
+            document.getElementById(
+                "precheckCounter"
+            ).innerText
+        );
+
+
+    document.getElementById(
+        "precheckCounter"
+    ).innerText =
+        counter + 1;
+
+}
+
+
+/* =========================================================
+   CLEAR TERMINAL
+   ========================================================= */
+
+function clearTerminal(){
+
+    document.getElementById(
+        "terminal"
+    ).innerHTML = "";
+
+}
+
+
+/* =========================================================
+   ADD EVENT
+   ========================================================= */
+
+function addEvent(
+    type,
+    message,
+    severity="normal"
+){
+
+    const container =
+        document.getElementById(
+            "eventContainer"
+        );
+
+
+    const event =
+        document.createElement(
+            "div"
+        );
+
+
+    event.className =
+        "event new-event";
+
+
+    if(
+        severity === "critical"
+    ){
+
+        event.classList.add(
+            "new-critical"
+        );
+
+    }
+
+
+    if(
+        severity === "warning"
+    ){
+
+        event.classList.add(
+            "new-warning"
+        );
+
+    }
+
+
+    const now =
+        new Date();
+
+
+    const time =
+        now.toLocaleTimeString(
+            [],
+            {
+                hour:"2-digit",
+                minute:"2-digit",
+                second:"2-digit"
+            }
+        );
+
+
+    let eventClass =
+        "blue";
+
+
+    if(type === "CRITICAL"){
+
+        eventClass =
+            "red";
+
+    }
+
+    else if(type === "WARNING"){
+
+        eventClass =
+            "orange";
+
+    }
+
+
+    event.innerHTML = `
+
+        <span class="event-time">
+            ${time}
+        </span>
+
+        <span class="event-type ${eventClass}">
+            ${type}
+        </span>
+
+        <span class="event-text">
+            ${message}
+        </span>
+
+    `;
+
+
+    container.prepend(
+        event
+    );
+
+
+    const events =
+        container.querySelectorAll(
+            ".event"
+        );
+
+
+    if(
+        events.length > 12
+    ){
+
+        events[
+            events.length - 1
+        ].remove();
+
+    }
+
+
+    setTimeout(()=>{
+
+        event.classList.remove(
+            "new-event",
+            "new-critical",
+            "new-warning"
+        );
+
+    },5000);
+
+}
+
+
+/* =========================================================
+   NOTIFICATION
+   ========================================================= */
+
+function showNotification(
+    title,
+    message,
+    type="warning"
+){
+
+    const notification =
+        document.createElement(
+            "div"
+        );
+
+
+    notification.className =
+        `noc-notification ${type}`;
+
+
+    notification.innerHTML = `
+
+        <div class="notification-title">
+
+            ${
+                type === "critical"
+                    ? "🔴"
+                    : "🟠"
+            }
+
+            ${title}
+
+        </div>
+
+
+        <div class="notification-message">
+
+            ${message}
+
+        </div>
+
+
+        <div class="notification-time">
+
+            IQ200 Monitoring Engine ·
+            ${new Date().toLocaleTimeString()}
+
+        </div>
+
+    `;
+
+
+    document.body.appendChild(
+        notification
+    );
+
+
+    notificationHistory.unshift({
+
+        title:
+            title,
+
+        message:
+            message,
+
+        type:
+            type,
+
+        time:
+            new Date().toLocaleTimeString()
+
+    });
+
+
+    notification.onclick =
+        () => {
+
+            notification.remove();
+
+        };
+
+
+    setTimeout(()=>{
+
+        if(
+            document.body.contains(
+                notification
+            )
+        ){
+
+            notification.remove();
+
+        }
+
+    },7000);
+
+}
+
+
+/* =========================================================
+   NOTIFICATION CENTER
+   ========================================================= */
+
+function showNotificationCenter(){
+
+    if(
+        notificationHistory.length === 0
+    ){
+
+        alert(
+            "No new NOC notifications."
+        );
+
+        return;
+
+    }
+
+
+    let text =
+        "IQ200 NOTIFICATION CENTER\n\n";
+
+
+    notificationHistory
+        .slice(0,8)
+        .forEach(
+            item => {
+
+                text +=
+                    `[${item.time}] ${item.type.toUpperCase()}\n`;
+
+                text +=
+                    `${item.title}\n`;
+
+                text +=
+                    `${item.message}\n\n`;
+
+            }
+        );
+
+
+    alert(text);
+
+}
+
+
+/* =========================================================
+   ALERT SOUND
+   ========================================================= */
+
+function playAlertSound(){
+
+    try{
+
+        const AudioContext =
+            window.AudioContext ||
+            window.webkitAudioContext;
+
+
+        if(!AudioContext){
+            return;
+        }
+
+
+        const audioContext =
+            new AudioContext();
+
+
+        const oscillator =
+            audioContext.createOscillator();
+
+
+        const gain =
+            audioContext.createGain();
+
+
+        oscillator.type =
+            "square";
+
+
+        oscillator.frequency.value =
+            880;
+
+
+        gain.gain.setValueAtTime(
+            0.0001,
+            audioContext.currentTime
+        );
+
+
+        gain.gain.exponentialRampToValueAtTime(
+            0.15,
+            audioContext.currentTime + .02
+        );
+
+
+        gain.gain.exponentialRampToValueAtTime(
+            0.0001,
+            audioContext.currentTime + .35
+        );
+
+
+        oscillator.connect(
+            gain
+        );
+
+
+        gain.connect(
+            audioContext.destination
+        );
+
+
+        oscillator.start();
+
+
+        oscillator.stop(
+            audioContext.currentTime + .35
+        );
+
+    }
+
+    catch(error){
+
+        console.log(
+            "Alert sound unavailable"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   SIMULATE DEVICE FAILURE
+   ========================================================= */
+
+function simulateFailure(){
+
+    const onlineDevices =
+        deviceDB.filter(
+            device =>
+                device.status === "ONLINE"
+        );
+
+
+    if(
+        onlineDevices.length === 0
+    ){
+
+        alert(
+            "All demo devices are already DOWN."
+        );
+
+        return;
+
+    }
+
+
+    const device =
+        onlineDevices[
+            Math.floor(
+                Math.random() *
+                onlineDevices.length
+            )
+        ];
+
+
+    device.status =
+        "DOWN";
+
+
+    device.lastSeen =
+        new Date().toLocaleTimeString();
+
+
+    loadDownDevices();
+
+
+    setTimeout(()=>{
+
+        const cards =
+            document.querySelectorAll(
+                ".down-device"
+            );
+
+
+        cards.forEach(
+            card => {
+
+                if(
+                    card.innerText
+                        .includes(
+                            device.hostname
+                        )
+                ){
+
+                    card.classList.add(
+                        "device-alert"
+                    );
+
+
+                    card.scrollIntoView({
+
+                        behavior:
+                            "smooth",
+
+                        block:
+                            "center"
+
+                    });
+
+                }
+
+            }
+        );
+
+    },100);
+
+
+    addEvent(
+        "CRITICAL",
+        `${device.hostname} at ${device.site} changed state to DOWN`,
+        "critical"
+    );
+
+
+    showNotification(
+        "DEVICE DOWN",
+        `${device.hostname} at ${device.site} is unreachable.`,
+        "critical"
+    );
+
+
+    playAlertSound();
+
+
+    const kpi =
+        document.getElementById(
+            "downKpi"
+        ).closest(".kpi");
+
+
+    kpi.classList.add(
+        "kpi-alert"
+    );
+
+
+    setTimeout(()=>{
+
+        kpi.classList.remove(
+            "kpi-alert"
+        );
+
+    },6000);
+
+
+    /*
+     * Automatically open investigation
+     */
+
+    setTimeout(()=>{
+
+        openPrecheck(
+            device.id
+        );
+
+    },1200);
+
+}
+
+
+/* =========================================================
+   THRESHOLD MONITOR
+   ========================================================= */
+
+function monitorThresholds(){
+
+    deviceDB.forEach(
+        device => {
+
+            if(
+                device.status === "DOWN"
+            ){
+
+                return;
+
+            }
+
+
+            /*
+             * Simulate telemetry movement
+             */
+
+            device.cpu =
+                Math.max(
+                    10,
+                    Math.min(
+                        98,
+                        device.cpu +
+                        Math.floor(
+                            Math.random() * 11
+                        ) - 5
+                    )
+                );
+
+
+            device.utilization =
+                Math.max(
+                    10,
+                    Math.min(
+                        98,
+                        device.utilization +
+                        Math.floor(
+                            Math.random() * 13
+                        ) - 6
+                    )
+                );
+
+
+            /*
+             * CPU threshold
+             */
+
+            if(
+                device.cpu >= 80
+            ){
+
+                triggerThresholdAlert(
+                    device,
+                    "CPU",
+                    device.cpu,
+                    80
+                );
+
+            }
+
+
+            /*
+             * Link utilization
+             */
+
+            if(
+                device.utilization >= 80
+            ){
+
+                triggerThresholdAlert(
+                    device,
+                    "Link Utilization",
+                    device.utilization,
+                    80
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   THRESHOLD ALERT
+   ========================================================= */
+
+function triggerThresholdAlert(
+    device,
+    metric,
+    value,
+    threshold
+){
+
+    const alertKey =
+        `${device.id}-${metric}`;
+
+
+    if(
+        thresholdAlerts.has(
+            alertKey
+        )
+    ){
+
+        return;
+
+    }
+
+
+    thresholdAlerts.add(
+        alertKey
+    );
+
+
+    const severity =
+        value >= threshold + 10
+            ? "critical"
+            : "warning";
+
+
+    const eventType =
+        severity === "critical"
+            ? "CRITICAL"
+            : "WARNING";
+
+
+    addEvent(
+        eventType,
+        `${device.hostname} ${metric} ${value}% exceeds threshold ${threshold}%`,
+        severity
+    );
+
+
+    showNotification(
+        `${metric} Threshold Breach`,
+        `${device.hostname}: ${value}% / limit ${threshold}%`,
+        severity
+    );
+
+
+    highlightThresholdDevice(
+        device,
+        metric,
+        severity
+    );
+
+
+    playAlertSound();
+
+
+    setTimeout(()=>{
+
+        thresholdAlerts.delete(
+            alertKey
+        );
+
+    },20000);
+
+}
+
+
+/* =========================================================
+   HIGHLIGHT THRESHOLD
+   ========================================================= */
+
+function highlightThresholdDevice(
+    device,
+    metric,
+    severity
+){
+
+    const rows =
+        document.querySelectorAll(
+            ".threshold-row"
+        );
+
+
+    rows.forEach(
+        row => {
+
+            const text =
+                row.innerText;
+
+
+            if(
+                text.includes(
+                    device.hostname
+                )
+            ){
+
+                row.classList.remove(
+                    "threshold-breach",
+                    "threshold-critical"
+                );
+
+
+                if(
+                    severity === "critical"
+                ){
+
+                    row.classList.add(
+                        "threshold-critical"
+                    );
+
+                }
+                else{
+
+                    row.classList.add(
+                        "threshold-breach"
+                    );
+
+                }
+
+
+                const top =
+                    row.querySelector(
+                        ".threshold-top"
+                    );
+
+
+                if(
+                    top &&
+                    !top.querySelector(
+                        ".breach-label"
+                    )
+                ){
+
+                    const label =
+                        document.createElement(
+                            "span"
+                        );
+
+
+                    label.className =
+                        severity === "critical"
+                            ? "breach-label critical-label"
+                            : "breach-label";
+
+
+                    label.innerText =
+                        severity === "critical"
+                            ? "CRITICAL"
+                            : "BREACH";
+
+
+                    top.appendChild(
+                        label
+                    );
+
+                }
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   AUTOMATIC NETWORK SIMULATION
+   ========================================================= */
+
+function automaticNetworkSimulation(){
+
+    const onlineDevices =
+        deviceDB.filter(
+            device =>
+                device.status === "ONLINE"
+        );
+
+
+    /*
+     * 8% chance of device failure
+     */
+
+    if(
+        onlineDevices.length > 0 &&
+        Math.random() < 0.08
+    ){
+
+        const device =
+            onlineDevices[
+                Math.floor(
+                    Math.random() *
+                    onlineDevices.length
+                )
+            ];
+
+
+        device.status =
+            "DOWN";
+
+
+        device.lastSeen =
+            new Date().toLocaleTimeString();
+
+
+        loadDownDevices();
+
+
+        addEvent(
+            "CRITICAL",
+            `${device.hostname} at ${device.site} is no longer reachable`,
+            "critical"
+        );
+
+
+        showNotification(
+            "DEVICE DOWN",
+            `${device.hostname} has stopped responding.`,
+            "critical"
+        );
+
+
+        playAlertSound();
+
+
+        setTimeout(()=>{
+
+            const cards =
+                document.querySelectorAll(
+                    ".down-device"
+                );
+
+
+            cards.forEach(
+                card => {
+
+                    if(
+                        card.innerText.includes(
+                            device.hostname
+                        )
+                    ){
+
+                        card.classList.add(
+                            "device-alert"
+                        );
+
+                    }
+
+                }
+            );
+
+        },100);
+
+    }
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+function scrollToTop(){
+
+    window.scrollTo({
+
+        top:0,
+
+        behavior:"smooth"
+
+    });
+
+}
+
+
+function scrollToDownDevices(){
+
+    document.getElementById(
+        "downSection"
+    ).scrollIntoView({
+
+        behavior:"smooth"
+
+    });
+
+}
+
+
+function scrollToInventory(){
+
+    document.getElementById(
+        "inventorySection"
+    ).scrollIntoView({
+
+        behavior:"smooth"
+
+    });
+
+}
+
+
+function scrollToThreshold(){
+
+    document.getElementById(
+        "thresholdSection"
+    ).scrollIntoView({
+
+        behavior:"smooth"
+
+    });
+
+}
+
+
+function scrollToEvents(){
+
+    document.getElementById(
+        "eventsSection"
+    ).scrollIntoView({
+
+        behavior:"smooth"
+
+    });
+
+}
+
+
+function showAutomationInfo(){
+
+    alert(
+
+        "IQ200 AUTOMATION ENGINE\n\n" +
+
+        "✓ Device reachability monitoring\n" +
+
+        "✓ CPU monitoring\n" +
+
+        "✓ Link utilization monitoring\n" +
+
+        "✓ Threshold breach detection\n" +
+
+        "✓ Automatic device failure detection\n" +
+
+        "✓ Automated CLI pre-check workflow\n" +
+
+        "✓ Event stream generation\n" +
+
+        "✓ Engineer notification\n\n" +
+
+        "Engine Status: ACTIVE"
+
+    );
+
+}
+
+
+/* =========================================================
+   EXPORT CSV
+   ========================================================= */
+
+function exportCSV(){
+
+    let csv =
+        "Hostname,Site,Type,IP,Vendor,Firmware,Status,CPU,Memory,Utilization\n";
+
+
+    deviceDB.forEach(
+        device => {
+
+            csv +=
+                `${device.hostname},` +
+                `${device.site},` +
+                `${device.type},` +
+                `${device.ip},` +
+                `${device.vendor},` +
+                `${device.firmware},` +
+                `${device.status},` +
+                `${device.cpu},` +
+                `${device.memory},` +
+                `${device.utilization}\n`;
+
+        }
+    );
+
+
+    const blob =
+        new Blob(
+            [csv],
+            {
+                type:
+                    "text/csv"
+            }
+        );
+
+
+    const url =
+        URL.createObjectURL(
+            blob
+        );
+
+
+    const link =
+        document.createElement(
+            "a"
+        );
+
+
+    link.href =
+        url;
+
+
+    link.download =
+        "IQ200_Device_Inventory.csv";
+
+
+    link.click();
+
+
+    URL.revokeObjectURL(
+        url
+    );
+
+
+    addEvent(
+        "IQ200",
+        "Device inventory exported to CSV"
+    );
+
+}
+
+
+/* =========================================================
+   INITIAL LOAD
+   ========================================================= */
+
+loadDownDevices();
+
+
+/* =========================================================
+   IQ200 LIVE MONITORING ENGINE
+   ========================================================= */
+
+
+/*
+ * Check telemetry every 5 seconds
+ */
+
+setInterval(
+    () => {
+
+        monitorThresholds();
+
+    },
+    5000
+);
+
+
+/*
+ * Simulate infrastructure
+ * events every 12 seconds
+ */
+
+setInterval(
+    () => {
+
+        automaticNetworkSimulation();
+
+    },
+    12000
+);
+
+
+/*
+ * Startup messages
+ */
+
+setTimeout(
+    () => {
+
+        addEvent(
+            "IQ200",
+            "Monitoring engine connected to infrastructure objects"
+        );
+
+    },
+    1500
+);
+
+
+setTimeout(
+    () => {
+
+        addEvent(
+            "IQ200",
+            "Telemetry collection active: CPU, memory, interfaces and links"
+        );
+
+    },
+    3500
+);
+
+
+setTimeout(
+    () => {
+
+        addEvent(
+            "IQ200",
+            "Automated failure detection engine is operational"
+        );
+
+    },
+    5500
+);
+
+
+/* =========================================================
+   CLOSE MODAL WHEN CLICKING OUTSIDE
+   ========================================================= */ 
+
+document.getElementById(
+    "precheckModal"
+).addEventListener(
+    "click",
+    function(event){
+
+        if(
+            event.target === this
+        ){
+
+            closeModal();
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+
+</html>
